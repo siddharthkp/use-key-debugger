@@ -1,0 +1,28 @@
+{
+  "name": "use-key-debugger",
+  "version": "0.0.5",
+  "description": "Visible debug hook for keyboard events",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0-alpha.1",
+    "react-dom": ">=16.8.0-alpha.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siddharthkp/use-key-debugger.git"
+  },
+  "keywords": [],
+  "author": "siddharthkp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/siddharthkp/use-key-debugger/issues"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "homepage": "https://github.com/siddharthkp/use-key-debugger#readme"
+}
