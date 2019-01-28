@@ -2,9 +2,9 @@
   "name": "use-key-debugger",
   "version": "1.0.0",
   "description": "Visible debug hook for keyboard events",
-  "main": "index.js",
+  "main": "dist.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel index.js -o dist.js"
   },
   "peerDependencies": {
     "react": ">=16.8.0-alpha.1",
@@ -24,5 +24,11 @@
     "semi": false,
     "singleQuote": true
   },
-  "homepage": "https://github.com/siddharthkp/use-key-debugger#readme"
+  "homepage": "https://github.com/siddharthkp/use-key-debugger#readme",
+  "devDependencies": {
+    "@babel/cli": "7.2.3",
+    "@babel/core": "7.2.2",
+    "@babel/preset-env": "7.3.1",
+    "@babel/preset-react": "7.0.0"
+  }
 }
