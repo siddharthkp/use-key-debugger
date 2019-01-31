@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react'
 
+const symbolKeys = {
+  ArrowRight: '▶',
+  ArrowLeft: '◀',
+  ArrowUp: '▲',
+  ArrowDown: '▼'
+}
+
 const useKeyDebugger = () => {
   const [key, setKey] = useState(null)
 
   function callback(event = {}) {
-    setKey(event.key)
+    setKey(symbolKeys[event.key] || event.key)
   }
 
   function reset() {
