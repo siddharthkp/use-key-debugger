@@ -19,6 +19,13 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var symbolKeys = {
+  ArrowRight: '▶',
+  ArrowLeft: '◀',
+  ArrowUp: '▲',
+  ArrowDown: '▼'
+};
+
 var useKeyDebugger = function useKeyDebugger() {
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -27,7 +34,7 @@ var useKeyDebugger = function useKeyDebugger() {
 
   function callback() {
     var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    setKey(event.key);
+    setKey(symbolKeys[event.key] || event.key);
   }
 
   function reset() {

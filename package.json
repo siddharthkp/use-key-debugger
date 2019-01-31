@@ -1,6 +1,6 @@
 {
   "name": "use-key-debugger",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Visible debug hook for keyboard events",
   "main": "dist.js",
   "scripts": {
