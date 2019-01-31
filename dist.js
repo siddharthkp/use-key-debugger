@@ -19,6 +19,38 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+var useKeyDebugger = function useKeyDebugger() {
+  var _useState = (0, _react.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      key = _useState2[0],
+      setKey = _useState2[1];
+
+  function callback() {
+    var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    setKey(event.key);
+  }
+
+  function reset() {
+    setKey(null);
+  }
+
+  (0, _react.useEffect)(function () {
+    window.addEventListener('keydown', callback);
+    var timeout = window.setTimeout(reset, 500);
+    return function cleanup() {
+      window.clearTimeout(timeout);
+      return window.removeEventListener('keydown', callback);
+    };
+  }, [key]);
+  return function (props) {
+    if (key) return _react.default.createElement("div", _extends({
+      style: styles
+    }, props), key);else return null;
+  };
+};
+
+var _default = useKeyDebugger;
+exports.default = _default;
 var styles = {
   position: 'fixed',
   top: '30px',
@@ -35,38 +67,3 @@ var styles = {
   fontSize: '28px',
   borderRadius: '5px'
 };
-var symbolKeys = {
-  ArrowRight: '▶',
-  ArrowLeft: '◀',
-  ArrowUp: '▲',
-  ArrowDown: '▼'
-};
-
-var useKeyDebugger = function useKeyDebugger() {
-  var _useState = (0, _react.useState)(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      key = _useState2[0],
-      setKey = _useState2[1];
-
-  function callback() {
-    var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    setKey(symbolKeys[event.key] || event.key);
-  }
-
-  (0, _react.useEffect)(function () {
-    window.addEventListener('keydown', callback);
-    var timeout = window.setTimeout(callback, 500);
-    return function cleanup() {
-      window.clearTimeout(timeout);
-      return window.removeEventListener('keydown', callback);
-    };
-  });
-  return function (props) {
-    if (key) return _react.default.createElement("div", _extends({
-      style: styles
-    }, props), key);else return null;
-  };
-};
-
-var _default = useKeyDebugger;
-exports.default = _default;

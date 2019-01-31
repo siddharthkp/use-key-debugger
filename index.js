@@ -1,4 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+
+const useKeyDebugger = () => {
+  const [key, setKey] = useState(null)
+
+  function callback(event = {}) {
+    setKey(event.key)
+  }
+
+  function reset() {
+    setKey(null)
+  }
+
+  useEffect(
+    function() {
+      window.addEventListener('keydown', callback)
+      const timeout = window.setTimeout(reset, 500)
+
+      return function cleanup() {
+        window.clearTimeout(timeout)
+        return window.removeEventListener('keydown', callback)
+      }
+    },
+    [key]
+  )
+
+  return function(props) {
+    if (key)
+      return (
+        <div style={styles} {...props}>
+          {key}
+        </div>
+      )
+    else return null
+  }
+}
+
+export default useKeyDebugger
 
 const styles = {
   position: 'fixed',
@@ -15,41 +52,4 @@ const styles = {
   opacity: 0.4,
   fontSize: '28px',
   borderRadius: '5px'
-};
-
-const symbolKeys = {
-  ArrowRight: '▶',
-  ArrowLeft: '◀',
-  ArrowUp: '▲',
-  ArrowDown: '▼'
-};
-
-const useKeyDebugger = () => {
-  const [key, setKey] = useState(null);
-
-  function callback(event = {}) {
-    setKey(symbolKeys[event.key] || event.key);
-  }
-
-  useEffect(function() {
-    window.addEventListener('keydown', callback);
-    const timeout = window.setTimeout(callback, 500);
-
-    return function cleanup() {
-      window.clearTimeout(timeout);
-      return window.removeEventListener('keydown', callback);
-    };
-  });
-
-  return function(props) {
-    if (key)
-      return (
-        <div style={styles} {...props}>
-          {key}
-        </div>
-      );
-    else return null;
-  };
-};
-
-export default useKeyDebugger;
+}
