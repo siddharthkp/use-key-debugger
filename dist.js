@@ -27,32 +27,49 @@ var symbolKeys = {
 };
 
 var useKeyDebugger = function useKeyDebugger() {
-  var _useState = (0, _react.useState)(null),
+  var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
-      key = _useState2[0],
-      setKey = _useState2[1];
+      keys = _useState2[0],
+      setKeys = _useState2[1];
+  /* keydown */
 
-  function callback() {
-    var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    setKey(symbolKeys[event.key] || event.key);
-  }
-
-  function reset() {
-    setKey(null);
-  }
 
   (0, _react.useEffect)(function () {
-    window.addEventListener('keydown', callback);
-    var timeout = window.setTimeout(reset, 500);
-    return function cleanup() {
-      window.clearTimeout(timeout);
-      return window.removeEventListener('keydown', callback);
+    var handleKeyDown = function handleKeyDown(event) {
+      setKeys(keys.concat([event.key]));
     };
-  }, [key]);
+
+    window.addEventListener('keydown', handleKeyDown);
+    return function cleanup() {
+      return window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [keys.length]);
+  /* keyup with delay */
+
+  (0, _react.useEffect)(function () {
+    var timeout;
+
+    var handleKeyUp = function handleKeyUp(event) {
+      timeout = setTimeout(function () {
+        setKeys([]);
+      }, 1000);
+    };
+
+    window.addEventListener('keyup', handleKeyUp);
+    return function cleanup() {
+      window.removeEventListener('keyup', handleKeyUp);
+      clearTimeout(timeout);
+    };
+  }, [keys.length]);
   return function (props) {
-    if (key) return _react.default.createElement("div", _extends({
-      style: styles
-    }, props), key);else return null;
+    if (keys.length) {
+      var list = keys.map(function (key) {
+        return symbolKeys[key] || key;
+      }).join(' ');
+      return _react.default.createElement("div", _extends({
+        style: styles
+      }, props), list);
+    } else return null;
   };
 };
 
@@ -68,9 +85,11 @@ var styles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  color: '#fff',
-  background: '#777',
-  opacity: 0.4,
+  color: '#aaa',
+  background: '#eff0f2',
   fontSize: '28px',
-  borderRadius: '5px'
+  borderRadius: '5px',
+  borderTop: '1px solid #f5f5f5',
+  boxShadow: 'inset 0 0 25px #e8e8e8, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9',
+  textShadow: '0px 1px 0px #f5f5f5'
 };

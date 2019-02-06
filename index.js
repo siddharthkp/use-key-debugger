@@ -8,37 +8,55 @@ const symbolKeys = {
 }
 
 const useKeyDebugger = () => {
-  const [key, setKey] = useState(null)
+  const [keys, setKeys] = useState([])
 
-  function callback(event = {}) {
-    setKey(symbolKeys[event.key] || event.key)
-  }
-
-  function reset() {
-    setKey(null)
-  }
-
+  /* keydown */
   useEffect(
     function() {
-      window.addEventListener('keydown', callback)
-      const timeout = window.setTimeout(reset, 500)
+      const handleKeyDown = event => {
+        setKeys(keys.concat([event.key]))
+      }
+
+      window.addEventListener('keydown', handleKeyDown)
 
       return function cleanup() {
-        window.clearTimeout(timeout)
-        return window.removeEventListener('keydown', callback)
+        return window.removeEventListener('keydown', handleKeyDown)
       }
     },
-    [key]
+    [keys.length]
+  )
+
+  /* keyup with delay */
+  useEffect(
+    () => {
+      let timeout
+
+      const handleKeyUp = event => {
+        timeout = setTimeout(() => {
+          setKeys([])
+        }, 1000)
+      }
+
+      window.addEventListener('keyup', handleKeyUp)
+
+      return function cleanup() {
+        window.removeEventListener('keyup', handleKeyUp)
+        clearTimeout(timeout)
+      }
+    },
+    [keys.length]
   )
 
   return function(props) {
-    if (key)
+    if (keys.length) {
+      const list = keys.map(key => symbolKeys[key] || key).join(' ')
+
       return (
         <div style={styles} {...props}>
-          {key}
+          {list}
         </div>
       )
-    else return null
+    } else return null
   }
 }
 
@@ -54,9 +72,11 @@ const styles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  color: '#fff',
-  background: '#777',
-  opacity: 0.4,
+  color: '#aaa',
+  background: '#eff0f2',
   fontSize: '28px',
-  borderRadius: '5px'
+  borderRadius: '5px',
+  borderTop: '1px solid #f5f5f5',
+  boxShadow: 'inset 0 0 25px #e8e8e8, 0 1px 0 #c3c3c3, 0 2px 0 #c9c9c9',
+  textShadow: '0px 1px 0px #f5f5f5'
 }
